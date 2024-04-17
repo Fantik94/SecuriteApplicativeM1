@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import parse from 'html-react-parser';
 
 const Accueil = () => {
   const [blogs, setBlogs] = useState([]);
@@ -16,8 +17,8 @@ const Accueil = () => {
         {blogs.map(blog => (
             <div key={blog.id} className="blog-card">
                 <div className="texte">
-                    <strong>{blog.titre}</strong>
-                    <p>{blog.description}</p>
+                    <strong>{parse(blog.titre)}</strong>
+                    {parse(blog.description)}
                     {blog.image_url && <img src={blog.image_url} alt={`Image pour ${blog.titre}`} />}
                 </div>
             </div>
