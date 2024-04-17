@@ -8,14 +8,11 @@ app.use(express.json());
 app.use(cors());
 
 const pool = mysql.createPool({
-    host: 'damienbaptistemysqlserver.mysql.database.azure.com',
-    user: 'mysqladmin@damienbaptistemysqlserver',
-    password: 'Dadabapt94340@',
-    database: 'damienbaptistemysqldb',
-    port: 3306,
-    ssl: {
-        ca: fs.readFileSync('DigiCertGlobalRootG2.crt.pem')
-    },
+    host: 'localhost',
+    user: 'root',
+    password: '',  
+    database: 'projet_blog',  
+    port: 3306,  
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
