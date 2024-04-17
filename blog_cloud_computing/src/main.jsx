@@ -9,6 +9,8 @@ import NotFound from './composants/front/NotFound';
 import AddBlog from './composants/front/AddBlog';
 import BlogList from './composants/front/BlogList';
 import EditBlog from './composants/front/EditBlog';
+import Register from './composants/front/Register';
+import Login from './composants/front/Login';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -18,6 +20,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/add-blog'element={<AddBlog />} />
           <Route path='/blog-list'element={<BlogList />} />
           <Route path="/edit/:id" element={<EditBlog />} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/login" element={<Login/>} />
 
           <Route path="*" element={<NotFound/>} />
         </Route>

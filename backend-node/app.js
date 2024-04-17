@@ -2,6 +2,8 @@ const express = require('express');
 const mysql = require('mysql2');
 const fs = require('fs');
 const cors = require('cors');
+const bcrypt = require('bcryptjs');
+
 
 const app = express();
 app.use(express.json());
@@ -103,6 +105,55 @@ app.delete('/blogs/:id', async (req, res) => {
         res.status(500).send('Erreur lors de la suppression de l\'entrée : ' + err.message);
     }
 });
+
+
+// Endpoint pour s'inscrire
+app.post('/register', async (req, res) => {
+    try {
+        const { email, password, role = 'USER' } = req.body;
+        if (!email || !password) {
+            return res.status(400).send('Email et mot de passe sont requis.');
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10); // Hashage du mot de passe
+
+        const insertQuery = 'INSERT INTO Users (email, password, role) VALUES (?, ?, ?)';
+        await executeQuery(insertQuery, [email, hashedPassword, role]);
+        res.status(201).send('Utilisateur enregistré avec succès.');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur lors de l\'inscription : ' + err.message);
+    }
+});
+
+// Endpoint pour se connecter
+app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).send('Email et mot de passe sont requis.');
+        }
+
+        const selectQuery = 'SELECT password, id FROM Users WHERE email = ?';
+        const results = await executeQuery(selectQuery, [email]);
+
+        if (results.length > 0) {
+            const { password: hashedPassword, id } = results[0];
+
+            if (await bcrypt.compare(password, hashedPassword)) {
+                res.json({ message: 'Connexion réussie', userId: id });
+            } else {
+                res.status(401).send('Mot de passe incorrect.');
+            }
+        } else {
+            res.status(404).send('Utilisateur non trouvé.');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur lors de la connexion : ' + err.message);
+    }
+});
+
 
 app.use((err, req, res, next) => {
     console.error(err);
