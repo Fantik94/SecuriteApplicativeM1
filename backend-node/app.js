@@ -11,7 +11,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '',  
-    database: 'projet_blog',  
+    database: 'sam1_blog',  
     port: 3306,  
     waitForConnections: true,
     connectionLimit: 10,
