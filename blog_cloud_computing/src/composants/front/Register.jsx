@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';  // Import useNavigate
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -8,6 +8,7 @@ function Register() {
         password: '',
         role: 'USER'  // Assumant que vous souhaitez toujours collecter un rôle lors de l'inscription.
     });
+    const navigate = useNavigate();  // Créez une instance de useNavigate
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,8 +19,9 @@ function Register() {
         try {
             const response = await axios.post('http://localhost:3000/register', formData);
             alert('Inscription réussie: ' + response.data);
+            navigate('/login');  // Rediriger vers login après l'inscription
         } catch (error) {
-            alert('Erreur lors de l\'inscription: ' + error.response.data);
+            alert('Erreur lors de l\'inscription: ' + (error.response ? error.response.data : "Erreur réseau ou serveur"));
         }
     };
 
@@ -33,7 +35,8 @@ function Register() {
                         alt="Workflow"
                     />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-Création du compte                    </h2>
+                        Création du compte
+                    </h2>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <input type="hidden" name="remember" value="true" />
@@ -79,7 +82,8 @@ Création du compte                    </h2>
                 </form>
                 <div className="text-sm text-center">
                     <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-Vous avez déjà un compte ? Connectez vous ici                    </Link>
+                        Vous avez déjà un compte ? Connectez-vous ici
+                    </Link>
                 </div>
             </div>
         </div>
