@@ -1,12 +1,15 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 function Login() {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+
+    const [redirectToHome, setRedirectToHome] = useState(false);
 
     const { login, setUserRole } = useContext(AuthContext);
 
@@ -20,14 +23,17 @@ function Login() {
             const response = await axios.post('http://localhost:3000/login', formData);
             const { role } = response.data;
             setUserRole(role);
-            console.log(response.data); // Affichage de la réponse de l'API dans la console
-            console.log("Role de l'utilisateur:", role);
             login();
             alert('Connexion réussie: Bienvenue ' + formData.email);
+            setRedirectToHome(true);
         } catch (error) {
             alert('Erreur de connexion: ' + (error.response ? error.response.data : error.message));
         }
     };
+
+    if (redirectToHome) {
+        return <Link to="/" />;
+    }
 
     return (
         <div className="form-container">
