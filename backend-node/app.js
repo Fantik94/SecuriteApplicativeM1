@@ -134,14 +134,14 @@ app.post('/login', async (req, res) => {
             return res.status(400).send('Email et mot de passe sont requis.');
         }
 
-        const selectQuery = 'SELECT password, id FROM Users WHERE email = ?';
+        const selectQuery = 'SELECT password, id, role FROM Users WHERE email = ?';
         const results = await executeQuery(selectQuery, [email]);
 
         if (results.length > 0) {
-            const { password: hashedPassword, id } = results[0];
+            const { password: hashedPassword, id, role } = results[0];
 
             if (await bcrypt.compare(password, hashedPassword)) {
-                res.json({ message: 'Connexion réussie', userId: id });
+                res.json({ message: 'Connexion réussie', userId: id, role });
             } else {
                 res.status(401).send('Mot de passe incorrect.');
             }
