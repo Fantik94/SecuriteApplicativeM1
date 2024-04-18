@@ -22,13 +22,13 @@ function Login() {
         try {
             const response = await axios.post(import.meta.env.VITE_API_URL + '/login', formData);
             const { role } = response.data;
-            setUserRole(role);
-            login();
+            login(role); 
             setRedirectToHome(true);
         } catch (error) {
             alert('Erreur de connexion: ' + (error.response ? error.response.data : error.message));
         }
     };
+    
 
     if (redirectToHome) {
         return <Navigate to="/" replace />;
