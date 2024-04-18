@@ -3,14 +3,21 @@ import React, { createContext, useState, useEffect } from 'react';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const storedAuth = sessionStorage.getItem('isAuthenticated');
+    return storedAuth ? JSON.parse(storedAuth) : false;
+  });
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
-    const storedAuth = sessionStorage.getItem('isAuthenticated');
-    if (storedAuth) {
-      setIsAuthenticated(JSON.parse(storedAuth));
-    }
+    const syncAuthState = () => {
+      const storedAuth = sessionStorage.getItem('isAuthenticated');
+      if (storedAuth) {
+        setIsAuthenticated(JSON.parse(storedAuth));
+      }
+    };
+
+    syncAuthState();
   }, []);
 
   const login = () => {
