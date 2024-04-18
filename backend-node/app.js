@@ -7,7 +7,27 @@ const bcrypt = require('bcryptjs');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = [
+    'http://localhost:3001',
+    'http://dadabapt.ddns.net'
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    optionsSuccessStatus: 200,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true
+};
+
+app.use(cors(corsOptions));
+
 
 const pool = mysql.createPool({
     host: 'localhost',
