@@ -4,8 +4,9 @@ import parse from 'html-react-parser';
 const Accueil = () => {
   const [blogs, setBlogs] = useState([]);
 
+
   useEffect(() => {
-    fetch('http://localhost:3000/all-blogs')
+    fetch(import.meta.env.VITE_API_URL + '/all-blogs')
       .then(response => response.json())
       .then(data => setBlogs(data))
       .catch(error => console.error('Erreur lors de la récupération des blogs', error));
