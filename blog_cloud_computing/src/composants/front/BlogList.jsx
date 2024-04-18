@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BsTrash } from 'react-icons/bs';
 import { BiPencil } from 'react-icons/bi';
+import parse from 'html-react-parser';
 
 
 function BlogList() {
@@ -31,8 +32,8 @@ function BlogList() {
       {blogs.map((blog) => (
         <div key={blog.id} className="blog-item">
           <img className="blog-image" src={blog.image_url} alt={blog.titre} />
-          <h2>{blog.titre}</h2>
-          <p>{blog.description}</p>
+          <h2>{parse(blog.titre)}</h2>
+          <p>{parse(blog.description)}</p>
           <p>Par {blog.pseudo}</p>
           <div>
             <button onClick={() => setDeleteConfirmation(blog.id)}>
