@@ -16,7 +16,7 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/register', formData);
+            const response = await axios.post(import.meta.env.VITE_API_URL + '/register', formData);
             alert('Inscription réussie: ' + response.data);
         } catch (error) {
             alert('Erreur lors de l\'inscription: ' + error.response.data);
