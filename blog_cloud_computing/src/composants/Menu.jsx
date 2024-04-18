@@ -18,7 +18,7 @@ function Menu() {
                                 Accueil
                             </NavLink>
                         </li>
-                        {isAuthenticated && userRole === "ADMIN" && (
+                        {isAuthenticated && (
                             <li className="nav-item">
                                 <NavLink to="/add-blog" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                                     Ajouter un Blog
