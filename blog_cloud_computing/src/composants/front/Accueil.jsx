@@ -4,7 +4,6 @@ import parse from 'html-react-parser';
 const Accueil = () => {
   const [blogs, setBlogs] = useState([]);
 
-
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + '/all-blogs')
       .then(response => response.json())
@@ -20,7 +19,13 @@ const Accueil = () => {
                 <div key={blog.id} className="bg-white rounded-lg shadow-lg p-4 flex flex-col">
                     <h2 className="text-xl font-semibold mb-2">{parse(blog.titre)}</h2>
                     <p className="flex-1">{parse(blog.description)}</p>
-                    {blog.image_url && <img src={blog.image_url} alt={`Image pour ${blog.titre}`} className="mt-4 rounded" />}
+                    {blog.image_url && (
+                      <img 
+                        src={blog.image_url} 
+                        alt={`Image pour ${blog.titre}`} 
+                        className="mt-4 rounded max-w-full h-auto max-h-48" // Définit une hauteur maximale et une largeur maximale tout en maintenant le ratio
+                      />
+                    )}
                 </div>
             ))}
         </div>
